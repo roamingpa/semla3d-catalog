@@ -1,0 +1,22 @@
+name: Dados personalizados D20
+slug: dados-d20-personalizados
+description: Set de dados D20 personalizados para RPG. Impresión de alta calidad con números bien definidos.
+category: rpg
+price: 5200
+size:
+  width: 22
+  height: 22
+  depth: 22
+images:
+  - https://picsum.photos/seed/dados1/800/600
+  - https://picsum.photos/seed/dados2/800/600
+  - https://picsum.photos/seed/dados3/800/600
+videos:
+  - https://www.youtube.com/embed/ID_DEL_VIDEO
+tags:
+  - dados
+  - d20
+  - rpg
+  - dungeons
+  - dragons
+  - juego

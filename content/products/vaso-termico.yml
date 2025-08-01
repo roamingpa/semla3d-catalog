@@ -1,0 +1,19 @@
+name: Vaso térmico
+slug: vaso-termico
+description: Vaso impreso en 3D con aislamiento térmico.
+category: cocina
+price: 9500
+size:
+  width: 80
+  height: 120
+  depth: 80
+images:
+  - https://picsum.photos/seed/vaso1/800/600
+  - https://picsum.photos/seed/vaso2/800/600
+  - https://picsum.photos/seed/vaso3/800/600
+videos:
+  - https://www.youtube.com/embed/ID_DEL_VIDEO
+tags:
+  - vaso
+  - cocina
+  - termico

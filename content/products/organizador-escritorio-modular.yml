@@ -1,0 +1,22 @@
+name: Organizador de escritorio modular
+slug: organizador-escritorio-modular
+description: Sistema modular de organización para escritorio. Compartimentos ajustables y diseño minimalista.
+category: oficina
+price: 7800
+size:
+  width: 150
+  height: 80
+  depth: 100
+images:
+  - https://picsum.photos/seed/organizador1/800/600
+  - https://picsum.photos/seed/organizador2/800/600
+  - https://picsum.photos/seed/organizador3/800/600
+  - https://picsum.photos/seed/organizador4/800/600
+videos:
+  - https://www.youtube.com/embed/ID_DEL_VIDEO
+tags:
+  - organizador
+  - escritorio
+  - oficina
+  - modular
+  - productividad

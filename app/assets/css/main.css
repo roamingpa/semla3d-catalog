@@ -1,0 +1,54 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* Define violet theme colors */
+:root {
+  --ui-color-primary-50: 250 245 255;
+  --ui-color-primary-100: 243 232 255;
+  --ui-color-primary-200: 233 213 255;
+  --ui-color-primary-300: 196 181 253;
+  --ui-color-primary-400: 167 139 250;
+  --ui-color-primary-500: 139 92 246;
+  --ui-color-primary-600: 124 58 237;
+  --ui-color-primary-700: 109 40 217;
+  --ui-color-primary-800: 91 33 182;
+  --ui-color-primary-900: 76 29 149;
+  --ui-color-primary-950: 46 16 101;
+  
+  /* Set primary as the main UI color */
+  --ui-primary: rgb(139 92 246);
+  
+  /* Override neutral colors for better card contrast */
+  --ui-color-neutral-50: 255 255 255;
+  --ui-color-neutral-100: 248 250 252;
+  --ui-color-neutral-200: 226 232 240;
+  --ui-color-neutral-300: 203 213 225;
+  --ui-color-neutral-400: 148 163 184;
+  --ui-color-neutral-500: 100 116 139;
+  --ui-color-neutral-600: 71 85 105;
+  --ui-color-neutral-700: 51 65 85;
+  --ui-color-neutral-800: 30 41 59;
+  --ui-color-neutral-900: 15 23 42;
+  --ui-color-neutral-950: 2 6 23;
+  
+  /* Card backgrounds and borders */
+  --ui-bg: rgb(255 255 255);
+  --ui-bg-elevated: rgb(248 250 252);
+  --ui-border: rgb(226 232 240);
+  --ui-border-accented: rgb(203 213 225);
+  
+  /* Text colors for contrast on white backgrounds */
+  --ui-text: rgb(15 23 42);
+  --ui-text-highlighted: rgb(2 6 23);
+  --ui-text-muted: rgb(100 116 139);
+  --ui-text-dimmed: rgb(148 163 184);
+  --ui-text-toned: rgb(71 85 105);
+  --ui-text-inverted: rgb(255 255 255);
+}
+
+/* Background gradient */
+body {
+  background: linear-gradient(135deg, rgb(250 245 255), rgb(253 244 255), rgb(245 208 254));
+  min-height: 100vh;
+}
+

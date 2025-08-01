@@ -1,0 +1,22 @@
+name: Marcador de habilidad One Piece TCG
+slug: marcador-habilidad-one-piece
+description: Marcador de habilidades temático de One Piece TCG. Incluye símbolos del universo pirata y diseño resistente.
+category: tcg
+price: 3800
+size:
+  width: 50
+  height: 18
+  depth: 28
+images:
+  - https://picsum.photos/seed/onepiece1/800/600
+  - https://picsum.photos/seed/onepiece2/800/600
+  - https://picsum.photos/seed/onepiece3/800/600
+videos:
+  - https://www.youtube.com/embed/ID_DEL_VIDEO
+tags:
+  - one-piece
+  - tcg
+  - marcador
+  - habilidad
+  - pirata
+  - juego
