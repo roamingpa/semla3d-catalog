@@ -3,7 +3,8 @@
     <!-- Header Global -->
     <header class="bg-default/95 backdrop-blur-sm shadow-sm border-b">
       <UContainer class="py-4">
-        <div class="flex items-center justify-between gap-4">
+        <!-- Layout para desktop -->
+        <div class="hidden md:flex items-center justify-between gap-4">
           <!-- Logo / Título -->
           <div class="flex-shrink-0">
             <NuxtLink to="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
@@ -27,6 +28,51 @@
             >
               Catálogo
             </UButton>
+            <UButton
+              to="/como-pagar"
+              variant="ghost"
+              size="sm"
+              icon="i-heroicons-credit-card"
+            >
+              ¿Cómo pagar?
+            </UButton>
+          </div>
+        </div>
+
+        <!-- Layout para móvil -->
+        <div class="md:hidden space-y-3">
+          <!-- Primera fila: Logo y navegación -->
+          <div class="flex items-center justify-between">
+            <div class="flex-shrink-0">
+              <NuxtLink to="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <UIcon name="i-heroicons-cube" class="w-7 h-7 text-primary" />
+                <h1 class="text-lg font-bold text-highlighted">Semla3D</h1>
+              </NuxtLink>
+            </div>
+            
+            <div class="flex-shrink-0 flex items-center gap-1">
+              <UButton
+                to="/"
+                variant="ghost"
+                size="sm"
+                icon="i-heroicons-home"
+              >
+                <span class="sr-only">Catálogo</span>
+              </UButton>
+              <UButton
+                to="/como-pagar"
+                variant="ghost"
+                size="sm"
+                icon="i-heroicons-credit-card"
+              >
+                <span class="sr-only">¿Cómo pagar?</span>
+              </UButton>
+            </div>
+          </div>
+
+          <!-- Segunda fila: Barra de búsqueda a ancho completo -->
+          <div class="w-full">
+            <SearchBar />
           </div>
         </div>
       </UContainer>
@@ -83,6 +129,73 @@
       </UContainer>
     </section>
 
+     <!-- Páginas Amigas Section -->
+    <section class="bg-white/80 backdrop-blur-sm border-t border-primary/20 py-12">
+      <UContainer>
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-highlighted mb-4">Páginas Amigas</h2>
+          <p class="text-lg text-muted max-w-2xl mx-auto">
+            Descubre otros emprendimientos increíbles que recomendamos
+          </p>
+        </div>
+
+        <div class="flex justify-center">
+          <div class="max-w-md">
+            <UCard 
+              class="hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+              :ui="{ 
+                base: 'overflow-hidden border border-primary/20 bg-white/90 backdrop-blur-sm',
+                body: { padding: 'p-6' }
+              }"
+            >
+              <div class="text-center space-y-4">
+                <!-- Instagram Icon -->
+                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-pink-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                  <UIcon name="i-simple-icons-instagram" class="w-8 h-8 text-white" />
+                </div>
+                
+                <div>
+                  <h3 class="text-xl font-bold text-highlighted mb-2">@aso.tcg</h3>
+                  <p class="text-muted text-sm mb-4">
+                    Tu tienda especializada en Trading Card Games. Cartas, sobres, accesorios y todo lo que necesitas para tu juego favorito.
+                  </p>
+                </div>
+
+                <!-- Features -->
+                <div class="space-y-2 text-sm text-muted">
+                  <div class="flex items-center justify-center gap-2">
+                    <UIcon name="i-heroicons-gift" class="w-4 h-4 text-primary" />
+                    <span>Trading Card Games</span>
+                  </div>
+                  <div class="flex items-center justify-center gap-2">
+                    <UIcon name="i-heroicons-truck" class="w-4 h-4 text-primary" />
+                    <span>Envíos combinados disponibles</span>
+                  </div>
+                  <div class="flex items-center justify-center gap-2">
+                    <UIcon name="i-heroicons-star" class="w-4 h-4 text-primary" />
+                    <span>Productos de calidad</span>
+                  </div>
+                </div>
+
+                <!-- Visit Button -->
+                <UButton 
+                  to="https://www.instagram.com/aso.tcg/"
+                  target="_blank"
+                  color="primary"
+                  size="lg"
+                  icon="i-simple-icons-instagram"
+                  class="w-full"
+                  external
+                >
+                  Visitar @aso.tcg
+                </UButton>
+              </div>
+            </UCard>
+          </div>
+        </div>
+      </UContainer>
+    </section>
+
     <!-- Footer -->
     <footer class="bg-default/95 backdrop-blur-sm border-t mt-16">
       <UContainer class="py-8">
@@ -92,6 +205,7 @@
         </div>
       </UContainer>
     </footer>
+
   </div>
 </template>
 

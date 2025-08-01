@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full max-w-md z-40">
+  <div class="relative w-full z-40">
     <!-- Input de búsqueda -->
     <div class="relative">
       <UInput
@@ -27,7 +27,7 @@
     <!-- Resultados de búsqueda -->
     <div
       v-if="showResults && (searchResults.length > 0 || (searchQuery && !isSearching))"
-      class="absolute top-full left-0 right-0 mt-2 bg-default rounded-lg shadow-lg border z-[9999] max-h-96 overflow-y-auto"
+      class="absolute top-full left-0 right-0 mt-2 bg-default rounded-lg shadow-lg border z-[9999] max-h-80 md:max-h-96 overflow-y-auto"
     >
       <!-- Resultados encontrados -->
       <div v-if="searchResults.length > 0" class="p-2">
@@ -39,7 +39,7 @@
         >
           <div class="flex items-center gap-3">
             <!-- Imagen del producto -->
-            <div class="w-12 h-12 bg-muted rounded-md overflow-hidden flex-shrink-0">
+            <div class="w-10 h-10 md:w-12 md:h-12 bg-muted rounded-md overflow-hidden flex-shrink-0">
               <img
                 v-if="result.images?.[0]"
                 :src="result.images[0]"
@@ -47,21 +47,18 @@
                 class="w-full h-full object-cover"
               />
               <div v-else class="w-full h-full flex items-center justify-center">
-                <UIcon name="i-heroicons-photo" class="w-5 h-5 text-dimmed" />
+                <UIcon name="i-heroicons-photo" class="w-4 h-4 md:w-5 md:h-5 text-dimmed" />
               </div>
             </div>
             
             <!-- Información del producto -->
             <div class="flex-1 min-w-0">
-              <h4 class="font-medium truncate">{{ result.name }}</h4>
-              <p class="text-sm text-muted truncate">{{ result.description }}</p>
+              <h4 class="font-medium text-sm md:text-base truncate">{{ result.name }}</h4>
+              <p class="text-xs md:text-sm text-muted truncate">{{ result.description }}</p>
               <div class="flex items-center gap-2 mt-1">
-                <UBadge color="primary" variant="soft" size="xs">
+                <UBadge color="primary" variant="soft" size="md">
                   ${{ result.price }}
                 </UBadge>
-                <span v-if="result.score" class="text-xs text-dimmed">
-                  Coincidencia: {{ Math.round(result.score * 100) }}%
-                </span>
               </div>
             </div>
           </div>

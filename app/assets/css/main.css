@@ -18,6 +18,35 @@
   /* Set primary as the main UI color */
   --ui-primary: rgb(139 92 246);
   
+  /* Define pink/rose as secondary color */
+  --ui-color-secondary-50: 253 242 248;
+  --ui-color-secondary-100: 252 231 243;
+  --ui-color-secondary-200: 251 207 232;
+  --ui-color-secondary-300: 249 168 212;
+  --ui-color-secondary-400: 244 114 182;
+  --ui-color-secondary-500: 236 72 153;
+  --ui-color-secondary-600: 219 39 119;
+  --ui-color-secondary-700: 190 24 93;
+  --ui-color-secondary-800: 157 23 77;
+  --ui-color-secondary-900: 131 24 67;
+  --ui-color-secondary-950: 80 7 36;
+  
+  /* Set secondary as pink */
+  --ui-secondary: rgb(236 72 153);
+  
+  /* Define pink color variants */
+  --ui-color-pink-50: 253 242 248;
+  --ui-color-pink-100: 252 231 243;
+  --ui-color-pink-200: 251 207 232;
+  --ui-color-pink-300: 249 168 212;
+  --ui-color-pink-400: 244 114 182;
+  --ui-color-pink-500: 236 72 153;
+  --ui-color-pink-600: 219 39 119;
+  --ui-color-pink-700: 190 24 93;
+  --ui-color-pink-800: 157 23 77;
+  --ui-color-pink-900: 131 24 67;
+  --ui-color-pink-950: 80 7 36;
+  
   /* Override neutral colors for better card contrast */
   --ui-color-neutral-50: 255 255 255;
   --ui-color-neutral-100: 248 250 252;
