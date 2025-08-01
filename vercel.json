@@ -3,10 +3,5 @@
   "outputDirectory": ".output/public",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "framework": "nuxtjs",
-  "functions": {
-    "app/server/api/**/*.ts": {
-      "maxDuration": 10
-    }
-  }
+  "framework": "nuxtjs"
 }
