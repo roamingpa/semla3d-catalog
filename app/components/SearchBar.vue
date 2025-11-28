@@ -38,13 +38,23 @@
           @click="goToProduct(result)"
         >
           <div class="flex items-center gap-3">
-            <!-- Imagen del producto -->
+            <!-- Imagen/Video del producto -->
             <div class="w-10 h-10 md:w-12 md:h-12 bg-muted rounded-md overflow-hidden flex-shrink-0">
+              <!-- Priorizar imagen, si no hay usar video -->
               <img
                 v-if="result.images?.[0]"
                 :src="result.images[0]"
                 :alt="result.name"
                 class="w-full h-full object-cover"
+              />
+              <video
+                v-else-if="result.videos?.[0]"
+                :src="result.videos[0]"
+                class="w-full h-full object-cover"
+                muted
+                loop
+                autoplay
+                playsinline
               />
               <div v-else class="w-full h-full flex items-center justify-center">
                 <UIcon name="i-heroicons-photo" class="w-4 h-4 md:w-5 md:h-5 text-dimmed" />

@@ -1,0 +1,18 @@
+name: Deckbox Kid One Piece
+slug: deckbox-kid
+description: Deckbox temático de Eustass Kid de One Piece. Para fans del Capitán Kid y su tripulación.
+price: 20000
+category: one piece
+images:
+  - "/catalogo/deckbox-onepiece/kid/1.jpg"
+videos:
+  - "/catalogo/deckbox-onepiece/kid/video1.MOV"
+  - "/catalogo/deckbox-onepiece/kid/video2.MOV"
+  - "/catalogo/deckbox-onepiece/kid/video3.MOV"
+size:
+  length: ""
+  width: ""
+  height: ""
+print_time: "2-3 días"
+customizable_options: []
+combina_bien_con: []

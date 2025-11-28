@@ -9,6 +9,23 @@ const { data: product, refresh: refreshProduct } = await useAsyncData(`product-$
   queryCollection('products').where( 'slug', '=', route.params.slug ).first()
 )
 
+// Función helper para verificar si las dimensiones son válidas
+const hasValidDimensions = (size) => {
+  if (!size) return false
+  
+  const { width, height, depth, length } = size
+  
+  // Verificar que al menos width y height tengan valores no vacíos
+  return (
+    width && width.toString().trim() !== '' &&
+    height && height.toString().trim() !== '' &&
+    (
+      (depth && depth.toString().trim() !== '') ||
+      (length && length.toString().trim() !== '')
+    )
+  )
+}
+
 // Obtener productos que combinan bien (selección manual)
 const { data: combinaBienCon, refresh: refreshCombina } = await useAsyncData(`combina-bien-${route.params.slug}`, async () => {
   if (!product.value?.combina_bien_con?.length) return []
@@ -46,6 +63,29 @@ watch(() => route.params.slug, async () => {
 
 // Estado para la imagen principal seleccionada
 const selectedImageIndex = ref(0)
+
+// Combinar imágenes y videos en una sola galería
+const mediaGallery = computed(() => {
+  if (!product.value) return []
+  
+  const gallery = []
+  
+  // Agregar imágenes
+  if (product.value.images && product.value.images.length > 0) {
+    product.value.images.forEach(img => {
+      gallery.push({ type: 'image', src: img })
+    })
+  }
+  
+  // Agregar videos
+  if (product.value.videos && product.value.videos.length > 0) {
+    product.value.videos.forEach(video => {
+      gallery.push({ type: 'video', src: video })
+    })
+  }
+  
+  return gallery
+})
 
 // Estado para el mensaje de copia
 const showCopyMessage = ref(false)
@@ -245,35 +285,63 @@ const copyToClipboard = async (text, type) => {
         <UCard class="overflow-hidden shadow-xl">
           <!-- Grid principal -->
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
-            <!-- Columna de imágenes -->
+            <!-- Columna de imágenes y videos -->
             <div class="space-y-4">
-              <div v-if="product.images && product.images.length" class="space-y-4">
-                <!-- Imagen principal -->
+              <div v-if="mediaGallery.length > 0" class="space-y-4">
+                <!-- Media principal (imagen o video) -->
                 <div class="aspect-square overflow-hidden rounded-xl bg-gradient-to-br from-purple-100 to-pink-100 shadow-lg">
+                  <!-- Mostrar imagen -->
                   <img
-                    :src="product.images[selectedImageIndex]"
+                    v-if="mediaGallery[selectedImageIndex].type === 'image'"
+                    :src="mediaGallery[selectedImageIndex].src"
                     :alt="product.name"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                   />
+                  <!-- Mostrar video -->
+                  <video
+                    v-else-if="mediaGallery[selectedImageIndex].type === 'video'"
+                    :src="mediaGallery[selectedImageIndex].src"
+                    class="w-full h-full object-cover"
+                    muted
+                    loop
+                    autoplay
+                    playsinline
+                  />
                 </div>
                 
-                <!-- Galería de imágenes adicionales -->
-                <div v-if="product.images.length > 1" class="grid grid-cols-4 gap-2">
+                <!-- Galería de miniaturas (imágenes y videos) -->
+                <div v-if="mediaGallery.length > 1" class="grid grid-cols-4 gap-2">
                   <div 
-                    v-for="(img, index) in product.images" 
+                    v-for="(media, index) in mediaGallery" 
                     :key="`thumb-${index}`"
-                    class="aspect-square overflow-hidden rounded-lg bg-purple-100 cursor-pointer hover:opacity-80 transition-all duration-200 border-2"
+                    class="aspect-square overflow-hidden rounded-lg bg-purple-100 cursor-pointer hover:opacity-80 transition-all duration-200 border-2 relative"
                     :class="{
                       'border-primary ring-2 ring-primary/30': selectedImageIndex === index,
                       'border-transparent hover:border-primary/50': selectedImageIndex !== index
                     }"
                     @click="selectImage(index)"
                   >
+                    <!-- Thumbnail de imagen -->
                     <img
-                      :src="img"
+                      v-if="media.type === 'image'"
+                      :src="media.src"
                       :alt="`${product.name} - ${index + 1}`"
                       class="w-full h-full object-cover"
                     />
+                    <!-- Thumbnail de video -->
+                    <video
+                      v-else-if="media.type === 'video'"
+                      :src="media.src"
+                      class="w-full h-full object-cover"
+                      muted
+                    />
+                    <!-- Icono de play para videos -->
+                    <div
+                      v-if="media.type === 'video'"
+                      class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 pointer-events-none"
+                    >
+                      <UIcon name="i-heroicons-play-circle" class="w-8 h-8 text-white" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -281,7 +349,7 @@ const copyToClipboard = async (text, type) => {
               <div v-else class="aspect-square bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl flex items-center justify-center shadow-lg">
                 <div class="text-center">
                   <UIcon name="i-heroicons-photo" class="w-20 h-20 text-purple-400 mx-auto mb-2" />
-                  <p class="text-purple-500">No image available</p>
+                  <p class="text-purple-500">No hay imágenes o videos disponibles</p>
                 </div>
               </div>
             </div>
@@ -303,7 +371,7 @@ const copyToClipboard = async (text, type) => {
                   </div>
                   <UBadge color="primary" variant="solid" size="lg">
                     <UIcon name="i-heroicons-check-circle" class="w-4 h-4 mr-1" />
-                    Disponible
+                    A pedido
                   </UBadge>
                 </div>
               </div>
@@ -316,7 +384,10 @@ const copyToClipboard = async (text, type) => {
                 </h3>
                 
                 <!-- Dimensiones con diagrama visual -->
-                <DimensionsDisplay v-if="product.size" :size="product.size" />
+                <DimensionsDisplay 
+                  v-if="hasValidDimensions(product.size)" 
+                  :size="product.size" 
+                />
 
                 <!-- Tiempo de producción -->
                 <div v-if="product.print_time" class="bg-elevated rounded-lg p-4 border shadow-sm">
@@ -325,35 +396,6 @@ const copyToClipboard = async (text, type) => {
                     <div class="flex-1">
                       <span class="font-medium">Tiempo mínimo de Producción</span>
                       <p class="text-sm text-muted mt-1">{{ product.print_time }}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Colores disponibles -->
-                <div class="bg-elevated rounded-lg p-4 border shadow-sm">
-                  <div class="space-y-3">
-                    <div class="flex items-center gap-3">
-                      <UIcon name="i-heroicons-swatch" class="w-5 h-5 text-primary" />
-                      <span class="font-medium">Colores Disponibles</span>
-                      <UBadge variant="soft" color="primary">{{ availableColors.length }}</UBadge>
-                    </div>
-                    
-                    <!-- Grid de colores -->
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                      <div 
-                        v-for="color in availableColors" 
-                        :key="color.value"
-                        class="flex items-center gap-3 p-2 rounded-lg bg-muted"
-                        :title="`Disponible en ${color.name}`"
-                      >
-                        <div 
-                          :class="[
-                            'w-6 h-6 rounded-full shadow-sm flex-shrink-0',
-                            color.cssClass
-                          ]"
-                        />
-                        <span class="text-sm font-medium">{{ color.name }}</span>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -422,27 +464,21 @@ const copyToClipboard = async (text, type) => {
                       </div>
 
                       <!-- Envíos combinados -->
-                      <div class="bg-blue-100 rounded-lg p-4 border border-blue-300">
-                        <div class="flex items-start gap-2">
-                          <UIcon name="i-heroicons-gift" class="w-4 h-4 text-blue-600 mt-0.5" />
-                          <div class="text-sm">
-                            <span class="font-medium text-blue-900">¡Envíos combinados disponibles!</span>
-                            <p class="text-blue-700 mt-1">
-                              Hacemos envíos combinados con 
-                              <a 
-                                href="https://www.instagram.com/aso.tcg/" 
-                                target="_blank" 
-                                class="font-semibold underline hover:text-blue-800 transition-colors"
-                              >
-                                @aso.tcg
-                              </a>
-                              para optimizar costos de envío. ¡Perfecto para gamers que necesitan cartas y accesorios 3D!
-                            </p>
-                            <div class="mt-2 flex items-center gap-2">
-                              <UIcon name="i-heroicons-currency-dollar" class="w-4 h-4 text-green-600" />
-                              <span class="text-xs text-blue-600 font-medium">Ahorra en costos de envío</span>
-                            </div>
-                          </div>
+                      <div class="flex items-start gap-2">
+                        <UIcon name="i-heroicons-gift" class="w-4 h-4 text-blue-600 mt-0.5" />
+                        <div class="text-sm">
+                          <span class="font-medium text-blue-900">Envíos combinados disponibles:</span>
+                          <p class="text-blue-700 mt-1">
+                            Hacemos envíos combinados con 
+                            <a 
+                              href="https://www.instagram.com/aso.tcg/" 
+                              target="_blank" 
+                              class="font-semibold underline hover:text-blue-800 transition-colors"
+                            >
+                              @aso.tcg
+                            </a>
+                            para optimizar costos de envío. ¡Perfecto para gamers que necesitan cartas y accesorios 3D!
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -457,7 +493,7 @@ const copyToClipboard = async (text, type) => {
                   <div>
                     <h4 class="font-semibold mb-2">Información del Producto</h4>
                     <p class="text-muted text-sm leading-relaxed mb-4">
-                      Este es un artículo de catálogo para fines de exhibición. Para consultas sobre precios y disponibilidad, 
+                      Este es un artículo de catálogo para fines de exhibición. Para consultas sobre precios y opciones de personalización, 
                       por favor contacta directamente a nuestro equipo de ventas.
                     </p>
                     
@@ -471,18 +507,6 @@ const copyToClipboard = async (text, type) => {
                     >
                       <LucideIcon name="Instagram" :size="16" class="mr-2" />
                       Consultar este producto
-                    </UButton>
-
-                    <!-- Enlace a métodos de pago -->
-                    <UButton 
-                      to="/como-pagar"
-                      color="green" 
-                      variant="outline" 
-                      size="md"
-                      class="w-full"
-                      icon="i-heroicons-credit-card"
-                    >
-                      Ver métodos de pago
                     </UButton>
                   </div>
                 </div>
@@ -508,18 +532,6 @@ const copyToClipboard = async (text, type) => {
                       >
                         <UIcon name="i-heroicons-chat-bubble-left-ellipsis" class="w-4 h-4 mr-2" />
                         WhatsApp
-                      </UButton>
-                      
-                      <!-- Facebook -->
-                      <UButton 
-                        @click="shareOnFacebook"
-                        color="primary" 
-                        variant="solid" 
-                        size="sm"
-                        class="cursor-pointer !bg-blue-600 hover:!bg-blue-700 !text-white !border-blue-600"
-                      >
-                        <UIcon name="i-heroicons-globe-alt" class="w-4 h-4 mr-2" />
-                        Facebook
                       </UButton>
                       
                       <!-- Twitter/X -->

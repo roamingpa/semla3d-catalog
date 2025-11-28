@@ -16,7 +16,7 @@ export const useSearch = () => {
       // Configurar MiniSearch
       const miniSearch = new MiniSearch({
         fields: ['name', 'description', 'tags'], // campos a indexar (removimos colors)
-        storeFields: ['name', 'description', 'price', 'slug', 'path', 'images'], // campos a almacenar
+        storeFields: ['name', 'description', 'price', 'slug', 'path', 'images', 'videos'], // campos a almacenar
         searchOptions: {
           boost: { name: 2 }, // dar más peso al nombre
           fuzzy: 0.2,
@@ -33,7 +33,8 @@ export const useSearch = () => {
         slug: product.slug,
         path: product.path,
         tags: Array.isArray(product.tags) ? product.tags.join(' ') : '',
-        images: product.images || []
+        images: product.images || [],
+        videos: product.videos || []
       }))
 
       // Agregar documentos al índice

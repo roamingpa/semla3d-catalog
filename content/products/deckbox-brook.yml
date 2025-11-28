@@ -1,0 +1,17 @@
+name: Deckbox Brook One Piece
+slug: deckbox-brook
+description: Deckbox temático de Brook de One Piece. Diseño único del músico esqueleto de los Piratas del Sombrero de Paja.
+price: 25000
+category: one piece
+
+images:
+  - "/catalogo/deckbox-onepiece/brook/1.jpg"
+videos:
+  - "/catalogo/deckbox-onepiece/brook/video1.MP4"
+size:
+  length: ""
+  width: ""
+  height: ""
+print_time: "2-3 días"
+customizable_options: []
+combina_bien_con: []

@@ -18,6 +18,23 @@ const filteredProducts = computed(() => {
   return products.value.filter(product => product.category === selectedCategory.value)
 })
 
+// Función helper para verificar si las dimensiones son válidas
+const hasValidDimensions = (size) => {
+  if (!size) return false
+  
+  const { width, height, depth, length } = size
+  
+  // Verificar que al menos width y height tengan valores no vacíos
+  return (
+    width && width.toString().trim() !== '' &&
+    height && height.toString().trim() !== '' &&
+    (
+      (depth && depth.toString().trim() !== '') ||
+      (length && length.toString().trim() !== '')
+    )
+  )
+}
+
 // Definir el layout para esta página
 definePageMeta({
   layout: 'default'
@@ -85,11 +102,23 @@ definePageMeta({
         >
           <template #header>
             <div class="aspect-square bg-gradient-to-br from-violet-200 to-purple-200 relative overflow-hidden group">
+              <!-- Priorizar imagen, si no hay usar video -->
               <img
                 v-if="product.images?.[0]"
                 :src="product.images[0]"
                 :alt="product.name"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <video
+                v-else-if="product.videos?.[0]"
+                :src="product.videos[0]"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                muted
+                loop
+                autoplay
+                playsinline
+                @mouseenter="$event.target.play()"
+                @mouseleave="$event.target.pause()"
               />
               <div v-else class="w-full h-full flex items-center justify-center">
                 <UIcon name="i-heroicons-photo" class="w-16 h-16 text-primary" />
@@ -127,30 +156,11 @@ definePageMeta({
               </p>
             </div>
 
-            <!-- Colors Preview - Mostrar todos los colores disponibles -->
-            <div class="flex items-center gap-2">
-              <span class="text-xs text-dimmed">Disponible en:</span>
-              <div class="flex gap-1">
-                <div 
-                  v-for="(color, index) in availableColors.slice(0, 4)" 
-                  :key="color.value"
-                  :class="[
-                    'w-4 h-4 rounded-full border-2 border-white shadow-sm',
-                    color.cssClass
-                  ]"
-                  :title="color.name"
-                />
-                <span 
-                  v-if="availableColors.length > 4" 
-                  class="text-xs text-dimmed ml-1"
-                >
-                  +{{ availableColors.length - 4 }}
-                </span>
-              </div>
-            </div>
-
             <!-- Dimensions -->
-            <DimensionsBadge v-if="product.size" :size="product.size" />
+            <DimensionsBadge 
+              v-if="hasValidDimensions(product.size)" 
+              :size="product.size" 
+            />
 
             <!-- View Details Button -->
             <UButton 
