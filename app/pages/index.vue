@@ -16,10 +16,29 @@ const categories = getAllCategories()
 // Estado reactivo para filtro por categoría
 const selectedCategory = ref(null)
 
-// Productos filtrados
+// Estado reactivo para ordenamiento
+const sortBy = ref('name') // 'name' | 'price-asc' | 'price-desc'
+
+// Productos filtrados y ordenados
 const filteredProducts = computed(() => {
-  if (!selectedCategory.value) return products.value
-  return products.value.filter(product => product.category === selectedCategory.value)
+  let result = products.value
+  
+  // Filtrar por categoría
+  if (selectedCategory.value) {
+    result = result.filter(product => product.category === selectedCategory.value)
+  }
+  
+  // Ordenar
+  const sorted = [...result]
+  if (sortBy.value === 'name') {
+    sorted.sort((a, b) => a.name.localeCompare(b.name))
+  } else if (sortBy.value === 'price-asc') {
+    sorted.sort((a, b) => a.price - b.price)
+  } else if (sortBy.value === 'price-desc') {
+    sorted.sort((a, b) => b.price - a.price)
+  }
+  
+  return sorted
 })
 
 // Función helper para verificar si las dimensiones son válidas
@@ -74,8 +93,40 @@ definePageMeta({
           size="sm"
           class="cursor-pointer"
         >
-          <LucideIcon :name="category.icon" :size="16" class="mr-2" />
+          <UIcon :name="category.icon" class="w-4 h-4 mr-2" />
           {{ category.name }}
+        </UButton>
+      </div>
+      
+      <!-- Sort Options -->
+      <div class="flex items-center justify-center gap-2 mt-4">
+        <span class="text-sm font-medium text-muted">Ordenar por:</span>
+        <UButton 
+          @click="sortBy = 'name'"
+          :variant="sortBy === 'name' ? 'solid' : 'outline'"
+          color="primary"
+          size="sm"
+          class="cursor-pointer"
+        >
+          Nombre
+        </UButton>
+        <UButton 
+          @click="sortBy = 'price-asc'"
+          :variant="sortBy === 'price-asc' ? 'solid' : 'outline'"
+          color="primary"
+          size="sm"
+          class="cursor-pointer"
+        >
+          Precio: menor a mayor
+        </UButton>
+        <UButton 
+          @click="sortBy = 'price-desc'"
+          :variant="sortBy === 'price-desc' ? 'solid' : 'outline'"
+          color="primary"
+          size="sm"
+          class="cursor-pointer"
+        >
+          Precio: mayor a menor
         </UButton>
       </div>
     </UContainer>

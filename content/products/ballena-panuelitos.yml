@@ -1,11 +1,10 @@
----
-name: Soporte Pañuelos Ballena
+name: Soport para caja de Pañuelos Ballena
 slug: ballena-panuelitos
 description: Soporte funcional para pañuelos con diseño de ballena. Combina utilidad y decoración marina.
 price: 20000
-category: decorativo
+category: otros
 images:
-  - "/catalogo/Otras figuras/20mil ballena pañuelitos.jpg"
+  - "/catalogo/figuras/ballena-panuelitos/1.jpg"
 
 size:
   length: ""
@@ -14,4 +13,3 @@ size:
 print_time: "2-3 días"
 customizable_options: []
 combina_bien_con: []
----
