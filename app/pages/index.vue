@@ -6,6 +6,9 @@ const { data: products } = await useAsyncData('products', () =>
   queryCollection('products').all()
 )
 
+// Composable para manejar URLs de media
+const { getMediaUrl } = useMedia()
+
 // Obtener categorías
 const categories = getAllCategories()
 
@@ -105,13 +108,13 @@ definePageMeta({
               <!-- Priorizar imagen, si no hay usar video -->
               <img
                 v-if="product.images?.[0]"
-                :src="product.images[0]"
+                :src="getMediaUrl(product.images[0])"
                 :alt="product.name"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
               <video
                 v-else-if="product.videos?.[0]"
-                :src="product.videos[0]"
+                :src="getMediaUrl(product.videos[0])"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 muted
                 loop

@@ -4,6 +4,7 @@ import { queryCollection } from '#imports'
 import { availableColors, getColorClass } from '@/utils/colors'
 
 const route = useRoute()
+const { getMediaUrl } = useMedia()
 
 const { data: product, refresh: refreshProduct } = await useAsyncData(`product-${route.params.slug}`, () =>
   queryCollection('products').where( 'slug', '=', route.params.slug ).first()
@@ -107,12 +108,12 @@ useSeoMeta({
   description: () => product.value?.description || 'Producto impreso en 3D de alta calidad',
   ogTitle: () => product.value ? `${product.value.name} - Semla3D` : 'Producto - Semla3D',
   ogDescription: () => product.value?.description || 'Producto impreso en 3D de alta calidad',
-  ogImage: () => product.value?.images?.[0] || '',
+  ogImage: () => product.value?.images?.[0] ? getMediaUrl(product.value.images[0]) : '',
   ogUrl: () => process.client ? window.location.href : `https://semla3d.com/products/${route.params.slug}`,
   twitterCard: 'summary_large_image',
   twitterTitle: () => product.value ? `${product.value.name} - Semla3D` : 'Producto - Semla3D',
   twitterDescription: () => product.value?.description || 'Producto impreso en 3D de alta calidad',
-  twitterImage: () => product.value?.images?.[0] || '',
+  twitterImage: () => product.value?.images?.[0] ? getMediaUrl(product.value.images[0]) : '',
 })
 
 // Función para contactar sobre este producto específico
@@ -293,14 +294,14 @@ const copyToClipboard = async (text, type) => {
                   <!-- Mostrar imagen -->
                   <img
                     v-if="mediaGallery[selectedImageIndex].type === 'image'"
-                    :src="mediaGallery[selectedImageIndex].src"
+                    :src="getMediaUrl(mediaGallery[selectedImageIndex].src)"
                     :alt="product.name"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                   />
                   <!-- Mostrar video -->
                   <video
                     v-else-if="mediaGallery[selectedImageIndex].type === 'video'"
-                    :src="mediaGallery[selectedImageIndex].src"
+                    :src="getMediaUrl(mediaGallery[selectedImageIndex].src)"
                     class="w-full h-full object-cover"
                     muted
                     loop
@@ -324,14 +325,14 @@ const copyToClipboard = async (text, type) => {
                     <!-- Thumbnail de imagen -->
                     <img
                       v-if="media.type === 'image'"
-                      :src="media.src"
+                      :src="getMediaUrl(media.src)"
                       :alt="`${product.name} - ${index + 1}`"
                       class="w-full h-full object-cover"
                     />
                     <!-- Thumbnail de video -->
                     <video
                       v-else-if="media.type === 'video'"
-                      :src="media.src"
+                      :src="getMediaUrl(media.src)"
                       class="w-full h-full object-cover"
                       muted
                     />
@@ -590,7 +591,7 @@ const copyToClipboard = async (text, type) => {
               <div class="aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-pink-100 to-purple-100 mb-4">
                 <img
                   v-if="combinaProduct.images?.[0]"
-                  :src="combinaProduct.images[0]"
+                  :src="getMediaUrl(combinaProduct.images[0])"
                   :alt="combinaProduct.name"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -641,7 +642,7 @@ const copyToClipboard = async (text, type) => {
               <div class="aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-purple-100 to-pink-100 mb-4">
                 <img
                   v-if="relatedProduct.images?.[0]"
-                  :src="relatedProduct.images[0]"
+                  :src="getMediaUrl(relatedProduct.images[0])"
                   :alt="relatedProduct.name"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />

@@ -43,13 +43,13 @@
               <!-- Priorizar imagen, si no hay usar video -->
               <img
                 v-if="result.images?.[0]"
-                :src="result.images[0]"
+                :src="getMediaUrl(result.images[0])"
                 :alt="result.name"
                 class="w-full h-full object-cover"
               />
               <video
                 v-else-if="result.videos?.[0]"
-                :src="result.videos[0]"
+                :src="getMediaUrl(result.videos[0])"
                 class="w-full h-full object-cover"
                 muted
                 loop
@@ -94,6 +94,7 @@
 
 <script setup>
 const { search, searchResults, isSearching, clearSearch: clearSearchResults } = useSearch()
+const { getMediaUrl } = useMedia()
 
 const searchQuery = ref('')
 const showResults = ref(false)

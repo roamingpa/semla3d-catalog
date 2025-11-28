@@ -6,6 +6,11 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'light'
+  },
+  runtimeConfig: {
+    public: {
+      mediaBaseUrl: 'https://axtfh7lpburz.objectstorage.sa-santiago-1.oci.customer-oci.com/n/axtfh7lpburz/b/bucket-semla3d/o'
+    }
   }
   // ssr: true,
   // nitro: {

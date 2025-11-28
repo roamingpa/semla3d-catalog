@@ -28,14 +28,6 @@
             >
               Catálogo
             </UButton>
-            <UButton
-              to="/como-pagar"
-              variant="ghost"
-              size="sm"
-              icon="i-heroicons-credit-card"
-            >
-              ¿Cómo pagar?
-            </UButton>
           </div>
         </div>
 
