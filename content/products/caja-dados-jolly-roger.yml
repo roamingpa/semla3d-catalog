@@ -1,0 +1,21 @@
+name: Caja para dados One Piece
+slug: caja-dados-jolly-roger
+description: Caja para dados impreso en 3D, con el emblemático Jolly Roger de One Piece. Diseño detallado y alta calidad de impresión.
+price: 5000
+category: one piece
+bulk_pricing:
+  - min_quantity: 2
+    unit_price: 4000
+images:
+  - "/catalogo/caja-dados-onepiece/jolly-roger/2.jpg"
+  - "/catalogo/caja-dados-onepiece/jolly-roger/1.jpg"
+  - "/catalogo/caja-dados-onepiece/jolly-roger/3.jpg"
+size:
+  length: ""
+  width: ""
+  height: ""
+print_time: "2-3 días"
+customizable_options: [
+  "Grabado de logo",
+]
+combina_bien_con: []

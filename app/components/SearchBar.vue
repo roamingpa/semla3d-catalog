@@ -67,7 +67,7 @@
               <p class="text-xs md:text-sm text-muted truncate">{{ result.description }}</p>
               <div class="flex items-center gap-2 mt-1">
                 <UBadge color="primary" variant="soft" size="md">
-                  ${{ result.price }}
+                  {{ formatPrice(result.price) }}
                 </UBadge>
               </div>
             </div>
@@ -93,6 +93,8 @@
 </template>
 
 <script setup>
+import { formatPrice } from '@/utils/currency'
+
 const { search, searchResults, isSearching, clearSearch: clearSearchResults } = useSearch()
 const { getMediaUrl } = useMedia()
 

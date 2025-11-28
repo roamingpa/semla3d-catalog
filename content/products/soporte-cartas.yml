@@ -1,0 +1,15 @@
+name: Soporte para cartas 
+slug: soporte-cartas
+description: Soporte para cartas impreso en 3D, para sostener tus cartas mientras juegas. Diseño detallado y alta calidad de impresión.
+price: 22000
+category: accesorios
+images:
+  - "/catalogo/accesorios-varios/soporte-cartas/1.jpg"
+  - "/catalogo/accesorios-varios/soporte-cartas/2.jpg"
+size:
+  length: ""
+  width: ""
+  height: ""
+print_time: "2-3 días"
+customizable_options: []
+combina_bien_con: []

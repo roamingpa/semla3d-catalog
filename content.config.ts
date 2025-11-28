@@ -11,13 +11,17 @@ export default defineContentConfig({
         description: z.string(),
         category: z.string(),
         price: z.number(),
+        bulk_pricing: z.array(z.object({
+          min_quantity: z.number(),
+          unit_price: z.number(),
+        })).optional(),
         size: z.object({
-          width: z.number(),
-          height: z.number(),
-          depth: z.number()
-        }),
-        images: z.array(z.string().url()), // ['https://...']
-        videos: z.array(z.string().url()).optional(), // opcional
+          width: z.string().optional(),
+          height: z.string().optional(),
+          depth: z.string().optional(),
+        }).optional(),
+        images: z.array(z.string()).optional(), // Rutas relativas o URLs
+        videos: z.array(z.string()).optional(), // Rutas relativas o URLs
         tags: z.array(z.string()).optional(),
         featured: z.boolean().optional(),
         custom_options: z.array(z.string()).optional(),

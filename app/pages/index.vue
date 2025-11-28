@@ -1,6 +1,7 @@
 <script setup>
 import { availableColors } from '@/utils/colors'
 import { getAllCategories, getCategoryInfo } from '@/utils/categories'
+import { formatPrice } from '@/utils/currency'
 
 const { data: products } = await useAsyncData('products', () =>
   queryCollection('products').all()
@@ -36,6 +37,12 @@ const hasValidDimensions = (size) => {
       (length && length.toString().trim() !== '')
     )
   )
+}
+
+// Función para formatear descripción con saltos de línea
+const formatDescription = (description) => {
+  if (!description) return ''
+  return description.replace(/\\n/g, '<br>')
 }
 
 // Definir el layout para esta página
@@ -130,7 +137,7 @@ definePageMeta({
               <!-- Price Badge -->
               <div class="absolute top-3 right-3">
                 <UBadge color="primary" variant="solid" size="lg">
-                  ${{ product.price }}
+                  {{ formatPrice(product.price) }}
                 </UBadge>
               </div>
 
@@ -154,8 +161,7 @@ definePageMeta({
               <h3 class="font-bold text-xl truncate">
                 {{ product.name }}
               </h3>
-              <p class="text-sm mt-1">
-                {{ product.description }}
+              <p v-html="formatDescription(product.description)" class="text-sm mt-1">
               </p>
             </div>
 

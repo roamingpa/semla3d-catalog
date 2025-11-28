@@ -11,6 +11,12 @@ export const categories = {
     description: 'Deckboxes y accesorios de los personajes icónicos de Final Fantasy',
     icon: 'Sparkles',
     color: 'purple'
+  },
+  'pokemon': {
+    name: 'Pokémon',
+    description: 'Deckboxes y accesorios del mundo Pokémon',
+    icon: 'Zap',
+    color: 'yellow'
   }
 }
 

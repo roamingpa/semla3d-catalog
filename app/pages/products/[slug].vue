@@ -2,6 +2,7 @@
 import { useRoute } from 'vue-router'
 import { queryCollection } from '#imports'
 import { availableColors, getColorClass } from '@/utils/colors'
+import { formatPrice } from '@/utils/currency'
 
 const route = useRoute()
 const { getMediaUrl } = useMedia()
@@ -96,6 +97,18 @@ const copiedMessage = ref('')
 const selectImage = (index) => {
   selectedImageIndex.value = index
 }
+
+// Formatear descripción con saltos de línea
+const formattedDescription = computed(() => {
+  if (!product.value?.description) return ''
+  return product.value.description.replace(/\\n/g, '<br>')
+})
+
+// Ordenar bulk pricing por cantidad mínima
+const sortedBulkPricing = computed(() => {
+  if (!product.value?.bulk_pricing || !Array.isArray(product.value.bulk_pricing)) return []
+  return [...product.value.bulk_pricing].sort((a, b) => a.min_quantity - b.min_quantity)
+})
 
 // Definir el layout para esta página
 definePageMeta({
@@ -360,20 +373,42 @@ const copyToClipboard = async (text, type) => {
               <!-- Header del producto -->
               <div class="border-b pb-6">
                 <h1 class="text-4xl font-black mb-3">{{ product.name }}</h1>
-                <p class="text-xl leading-relaxed text-muted">{{ product.description }}</p>
+                <p v-html="formattedDescription" class="text-xl leading-relaxed text-muted"></p>
               </div>
 
               <!-- Precio destacado -->
               <div class="bg-elevated rounded-xl p-6 border">
                 <div class="flex items-center justify-between">
                   <div>
-                    <p class="text-sm font-medium mb-1 text-muted">Precio</p>
-                    <span class="text-4xl font-bold text-primary">${{ product.price }}</span>
+                    <p class="text-sm font-medium mb-1 text-muted">Precio unitario</p>
+                    <span class="text-4xl font-bold text-primary">{{ formatPrice(product.price) }}</span>
                   </div>
                   <UBadge color="primary" variant="solid" size="lg">
                     <UIcon name="i-heroicons-check-circle" class="w-4 h-4 mr-1" />
                     A pedido
                   </UBadge>
+                </div>
+
+                <!-- Bulk Pricing Tiers -->
+                <div v-if="sortedBulkPricing.length > 0" class="border-t pt-3 mt-3">
+                  <p class="text-xs font-medium text-muted mb-2 flex items-center gap-1">
+                    <UIcon name="i-heroicons-tag" class="w-3 h-3" />
+                    Precios por volumen
+                  </p>
+                  <div class="space-y-1.5">
+                    <div 
+                      v-for="(tier, index) in sortedBulkPricing" 
+                      :key="index"
+                      class="flex items-center justify-between bg-primary-50 dark:bg-primary-950 rounded-lg px-3 py-2"
+                    >
+                      <span class="text-xs font-medium">
+                        Desde {{ tier.min_quantity }} unidades
+                      </span>
+                      <span class="text-base font-bold text-primary">
+                        {{ formatPrice(tier.unit_price) }} c/u
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -389,17 +424,6 @@ const copyToClipboard = async (text, type) => {
                   v-if="hasValidDimensions(product.size)" 
                   :size="product.size" 
                 />
-
-                <!-- Tiempo de producción -->
-                <div v-if="product.print_time" class="bg-elevated rounded-lg p-4 border shadow-sm">
-                  <div class="flex items-center gap-3">
-                    <UIcon name="i-heroicons-clock" class="w-5 h-5 text-primary" />
-                    <div class="flex-1">
-                      <span class="font-medium">Tiempo mínimo de Producción</span>
-                      <p class="text-sm text-muted mt-1">{{ product.print_time }}</p>
-                    </div>
-                  </div>
-                </div>
 
                 <!-- Opciones de personalización -->
                 <div v-if="product.customizable_options && product.customizable_options.length > 0" class="bg-gradient-to-r from-violet-50 to-purple-50 border border-violet-200 rounded-lg p-4 shadow-sm">
@@ -427,6 +451,17 @@ const copyToClipboard = async (text, type) => {
                         <UIcon name="i-heroicons-information-circle" class="w-4 h-4 inline mr-1" />
                         Las personalizaciones pueden afectar el tiempo de producción y precio. Consúltanos para más detalles.
                       </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tiempo de producción -->
+                <div v-if="product.print_time" class="bg-elevated rounded-lg p-4 border shadow-sm">
+                  <div class="flex items-center gap-3">
+                    <UIcon name="i-heroicons-clock" class="w-5 h-5 text-primary" />
+                    <div class="flex-1">
+                      <span class="font-medium">Tiempo mínimo de Producción</span>
+                      <p class="text-sm text-muted mt-1">{{ product.print_time }}</p>
                     </div>
                   </div>
                 </div>
@@ -621,7 +656,7 @@ const copyToClipboard = async (text, type) => {
                 <!-- Precio -->
                 <div class="flex items-center justify-between">
                   <span class="text-xl font-bold text-pink-600">
-                    ${{ combinaProduct.price }}
+                    {{ formatPrice(combinaProduct.price) }}
                   </span>
                   <UBadge color="secondary" variant="soft" size="sm">
                     {{ combinaProduct.category }}
@@ -681,7 +716,7 @@ const copyToClipboard = async (text, type) => {
                 <!-- Precio -->
                 <div class="flex items-center justify-between">
                   <span class="text-xl font-bold text-primary">
-                    ${{ relatedProduct.price }}
+                    {{ formatPrice(relatedProduct.price) }}
                   </span>
                   <UBadge color="primary" variant="soft" size="sm">
                     {{ relatedProduct.category }}
