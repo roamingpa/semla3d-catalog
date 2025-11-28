@@ -587,13 +587,22 @@ const copyToClipboard = async (text, type) => {
               class="group cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               @click="navigateTo(`/products/${combinaProduct.slug}`)"
             >
-              <!-- Imagen del producto -->
+              <!-- Imagen/Video del producto -->
               <div class="aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-pink-100 to-purple-100 mb-4">
                 <img
                   v-if="combinaProduct.images?.[0]"
                   :src="getMediaUrl(combinaProduct.images[0])"
                   :alt="combinaProduct.name"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <video
+                  v-else-if="combinaProduct.videos?.[0]"
+                  :src="getMediaUrl(combinaProduct.videos[0])"
+                  class="w-full h-full object-cover"
+                  muted
+                  loop
+                  autoplay
+                  playsinline
                 />
                 <div v-else class="w-full h-full flex items-center justify-center">
                   <UIcon name="i-heroicons-photo" class="w-12 h-12 text-pink-400" />
@@ -638,13 +647,22 @@ const copyToClipboard = async (text, type) => {
               class="group cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               @click="navigateTo(`/products/${relatedProduct.slug}`)"
             >
-              <!-- Imagen del producto -->
+              <!-- Imagen/Video del producto -->
               <div class="aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-purple-100 to-pink-100 mb-4">
                 <img
                   v-if="relatedProduct.images?.[0]"
                   :src="getMediaUrl(relatedProduct.images[0])"
                   :alt="relatedProduct.name"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <video
+                  v-else-if="relatedProduct.videos?.[0]"
+                  :src="getMediaUrl(relatedProduct.videos[0])"
+                  class="w-full h-full object-cover"
+                  muted
+                  loop
+                  autoplay
+                  playsinline
                 />
                 <div v-else class="w-full h-full flex items-center justify-center">
                   <UIcon name="i-heroicons-photo" class="w-12 h-12 text-purple-400" />
