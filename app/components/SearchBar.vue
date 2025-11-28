@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full z-40">
+  <div class="relative w-full" style="z-index: 10000;">
     <!-- Input de búsqueda -->
     <div class="relative">
       <UInput
@@ -27,7 +27,8 @@
     <!-- Resultados de búsqueda -->
     <div
       v-if="showResults && (searchResults.length > 0 || (searchQuery && !isSearching))"
-      class="absolute top-full left-0 right-0 mt-2 bg-default rounded-lg shadow-lg border z-[9999] max-h-80 md:max-h-96 overflow-y-auto"
+      class="absolute top-full left-0 right-0 mt-2 bg-default rounded-lg shadow-lg border max-h-80 md:max-h-96 overflow-y-auto"
+      style="z-index: 10001;"
     >
       <!-- Resultados encontrados -->
       <div v-if="searchResults.length > 0" class="p-2">
@@ -86,7 +87,7 @@
     <div
       v-if="showResults"
       class="fixed inset-0"
-      style="z-index: 999998;"
+      style="z-index: 9999;"
       @click="showResults = false"
     />
   </div>

@@ -73,7 +73,7 @@ definePageMeta({
 <template>
   <div>
     <!-- Categories Filter -->
-    <UContainer class="py-6">
+    <UContainer class="py-6 relative z-0">
       <div class="flex flex-wrap gap-3 justify-center category-buttons">
         <UButton 
           @click="selectedCategory = null"
@@ -99,35 +99,42 @@ definePageMeta({
       </div>
       
       <!-- Sort Options -->
-      <div class="flex items-center justify-center gap-2 mt-4">
-        <span class="text-sm font-medium text-muted">Ordenar por:</span>
-        <UButton 
-          @click="sortBy = 'name'"
-          :variant="sortBy === 'name' ? 'solid' : 'outline'"
-          color="primary"
-          size="sm"
-          class="cursor-pointer"
-        >
-          Nombre
-        </UButton>
-        <UButton 
-          @click="sortBy = 'price-asc'"
-          :variant="sortBy === 'price-asc' ? 'solid' : 'outline'"
-          color="primary"
-          size="sm"
-          class="cursor-pointer"
-        >
-          Precio: menor a mayor
-        </UButton>
-        <UButton 
-          @click="sortBy = 'price-desc'"
-          :variant="sortBy === 'price-desc' ? 'solid' : 'outline'"
-          color="primary"
-          size="sm"
-          class="cursor-pointer"
-        >
-          Precio: mayor a menor
-        </UButton>
+      <div class="mt-6 pt-4 border-t border-gray-200">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <span class="text-xs uppercase tracking-wide font-semibold text-gray-500">Ordenar por:</span>
+          <div class="flex flex-wrap items-center justify-center gap-2">
+            <UButton 
+              @click="sortBy = 'name'"
+              :variant="sortBy === 'name' ? 'solid' : 'outline'"
+              color="primary"
+              size="xs"
+              class="cursor-pointer border"
+            >
+              <UIcon name="i-heroicons-bars-3-bottom-left" class="w-3 h-3 mr-1" />
+              Nombre
+            </UButton>
+            <UButton 
+              @click="sortBy = 'price-asc'"
+              :variant="sortBy === 'price-asc' ? 'solid' : 'outline'"
+              color="primary"
+              size="xs"
+              class="cursor-pointer border"
+            >
+              <UIcon name="i-heroicons-arrow-up" class="w-3 h-3 mr-1" />
+              Precio
+            </UButton>
+            <UButton 
+              @click="sortBy = 'price-desc'"
+              :variant="sortBy === 'price-desc' ? 'solid' : 'outline'"
+              color="primary"
+              size="xs"
+              class="cursor-pointer border"
+            >
+              <UIcon name="i-heroicons-arrow-down" class="w-3 h-3 mr-1" />
+              Precio
+            </UButton>
+          </div>
+        </div>
       </div>
     </UContainer>
 

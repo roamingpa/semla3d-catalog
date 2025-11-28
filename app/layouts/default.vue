@@ -1,14 +1,14 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-violet-100 via-purple-100 to-fuchsia-100">
     <!-- Header Global -->
-    <header class="bg-default/95 backdrop-blur-sm shadow-sm border-b">
+    <header class="bg-default/95 backdrop-blur-sm shadow-sm border-b relative z-50">
       <UContainer class="py-4">
         <!-- Layout para desktop -->
         <div class="hidden md:flex items-center justify-between gap-4">
           <!-- Logo / Título -->
           <div class="flex-shrink-0">
             <NuxtLink to="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <UIcon name="i-heroicons-cube" class="w-8 h-8 text-primary" />
+              <img :src="getMediaUrl('catalogo/logo/1.jpg')" alt="Semla3D Logo" class="w-8 h-8 object-contain" />
               <h1 class="text-xl font-bold text-highlighted">Semla3D</h1>
             </NuxtLink>
           </div>
@@ -37,7 +37,7 @@
           <div class="flex items-center justify-between">
             <div class="flex-shrink-0">
               <NuxtLink to="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                <UIcon name="i-heroicons-cube" class="w-7 h-7 text-primary" />
+                <img :src="getMediaUrl('/logo/1.jpg')" alt="Semla3D Logo" class="w-7 h-7 object-contain" />
                 <h1 class="text-lg font-bold text-highlighted">Semla3D</h1>
               </NuxtLink>
             </div>
@@ -50,14 +50,6 @@
                 icon="i-heroicons-home"
               >
                 <span class="sr-only">Catálogo</span>
-              </UButton>
-              <UButton
-                to="/como-pagar"
-                variant="ghost"
-                size="sm"
-                icon="i-heroicons-credit-card"
-              >
-                <span class="sr-only">¿Cómo pagar?</span>
               </UButton>
             </div>
           </div>
@@ -204,6 +196,7 @@
 <script setup>
 // Inicializar el índice de búsqueda al cargar el layout
 const { initializeSearch } = useSearch()
+const { getMediaUrl } = useMedia()
 
 onMounted(() => {
   initializeSearch()
