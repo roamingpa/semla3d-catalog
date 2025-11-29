@@ -143,9 +143,9 @@ definePageMeta({
       <div class="text-center mb-8">
         <h2 class="text-3xl font-bold text-highlighted mb-4">
           <span v-if="selectedCategory">
-            Productos de {{ getCategoryInfo(selectedCategory).name }}
+            PRODUCTOS DE {{ getCategoryInfo(selectedCategory).name.toUpperCase() }}
           </span>
-          <span v-else>Nuestros Productos</span>
+          <span v-else>NUESTROS PRODUCTOS</span>
         </h2>
         <p class="text-lg text-muted max-w-2xl mx-auto">
           <span v-if="selectedCategory">
@@ -157,91 +157,53 @@ definePageMeta({
         </p>
       </div>
 
-      <div v-if="filteredProducts && filteredProducts.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <UCard 
-          v-for="product in filteredProducts" 
+      <!-- Grid estilo Instagram -->
+      <div v-if="filteredProducts && filteredProducts.length" class="grid grid-cols-3 gap-1 md:gap-2 max-w-4xl mx-auto">
+        <NuxtLink
+          v-for="product in filteredProducts"
           :key="product.id"
-          class="hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-          :ui="{ 
-            base: 'overflow-hidden',
-            body: { padding: 'p-4' },
-            header: { padding: 'p-0' }
-          }"
+          :to="product.path"
+          class="aspect-square cursor-pointer overflow-hidden bg-gray-100 hover:opacity-80 transition-opacity relative group"
         >
-          <template #header>
-            <div class="aspect-square bg-gradient-to-br from-violet-200 to-purple-200 relative overflow-hidden group">
-              <!-- Priorizar imagen, si no hay usar video -->
-              <img
-                v-if="product.images?.[0]"
-                :src="getMediaUrl(product.images[0])"
-                :alt="product.name"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <video
-                v-else-if="product.videos?.[0]"
-                :src="getMediaUrl(product.videos[0])"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                muted
-                loop
-                autoplay
-                playsinline
-                @mouseenter="$event.target.play()"
-                @mouseleave="$event.target.pause()"
-              />
-              <div v-else class="w-full h-full flex items-center justify-center">
-                <UIcon name="i-heroicons-photo" class="w-16 h-16 text-primary" />
-              </div>
-              
-              <!-- Price Badge -->
-              <div class="absolute top-3 right-3">
-                <UBadge color="primary" variant="solid" size="lg">
-                  {{ formatPrice(product.price) }}
-                </UBadge>
-              </div>
-
-              <!-- Category Badge -->
-              <div class="absolute top-3 left-3">
-                <div class="bg-white bg-opacity-80 rounded-full px-2 py-1 backdrop-blur-sm shadow-lg">
-                  <UBadge 
-                    :color="getCategoryInfo(product.category).color" 
-                    variant="solid" 
-                    size="lg"
-                  >
-                    {{ getCategoryInfo(product.category).name }}
-                  </UBadge>
-                </div>
-              </div>
-            </div>
-          </template>
-
-          <div class="space-y-3">
-            <div>
-              <h3 class="font-bold text-xl truncate">
-                {{ product.name }}
-              </h3>
-              <p v-html="formatDescription(product.description)" class="text-sm mt-1">
-              </p>
-            </div>
-
-            <!-- Dimensions -->
-            <DimensionsBadge 
-              v-if="hasValidDimensions(product.size)" 
-              :size="product.size" 
-            />
-
-            <!-- View Details Button -->
-            <UButton 
-              :to="product.path"
-              variant="outline" 
-              color="primary"
-              size="sm"
-              class="w-full"
-              icon="i-heroicons-eye"
-            >
-              Ver Detalles
-            </UButton>
+          <!-- Imagen principal -->
+          <img
+            v-if="product.images?.[0]"
+            :src="getMediaUrl(product.images[0])"
+            :alt="product.name"
+            class="w-full h-full object-cover"
+          />
+          <video
+            v-else-if="product.videos?.[0]"
+            :src="getMediaUrl(product.videos[0])"
+            class="w-full h-full object-cover"
+            muted
+            loop
+            playsinline
+          />
+          <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-violet-200 to-purple-200">
+            <UIcon name="i-heroicons-photo" class="w-8 h-8 md:w-12 md:h-12 text-primary" />
           </div>
-        </UCard>
+
+          <!-- Overlay con información (solo visible en hover desktop) -->
+          <div class="hidden md:flex absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex-col items-center justify-center p-4 text-white text-center">
+            <h3 class="font-bold text-lg mb-2 line-clamp-2">
+              {{ product.name }}
+            </h3>
+            <p class="text-2xl font-black">
+              {{ formatPrice(product.price) }}
+            </p>
+          </div>
+
+          <!-- Badge de precio (solo mobile) -->
+          <div class="md:hidden absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+            <p class="text-white text-xs font-bold truncate">
+              {{ product.name }}
+            </p>
+            <p class="text-white text-sm font-black">
+              {{ formatPrice(product.price) }}
+            </p>
+          </div>
+        </NuxtLink>
       </div>
 
       <!-- Empty State -->

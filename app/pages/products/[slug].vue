@@ -369,22 +369,51 @@ const copyToClipboard = async (text, type) => {
             </div>
 
             <!-- Columna de información -->
-            <div class="space-y-6">
+            <div class="space-y-4">
               <!-- Header del producto -->
-              <div class="border-b pb-6">
-                <h1 class="text-4xl font-black mb-3">{{ product.name }}</h1>
-                <p v-html="formattedDescription" class="text-xl leading-relaxed text-muted"></p>
+              <div>
+                <h1 class="text-3xl font-black mb-2">{{ product.name }}</h1>
+                <p v-html="formattedDescription" class="text-base leading-relaxed text-muted"></p>
+              </div>
+
+              <!-- Compartir (estilo Instagram) -->
+              <div class="flex items-center gap-2 py-2 border-y">
+                <span class="text-sm text-muted">Compartir:</span>
+                <div class="flex gap-2">
+                  <button 
+                    @click="shareOnWhatsApp"
+                    class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                    title="Compartir en WhatsApp"
+                  >
+                    <UIcon name="i-heroicons-chat-bubble-left-ellipsis" class="w-5 h-5 text-green-600" />
+                  </button>
+                  <button 
+                    @click="shareOnTwitter"
+                    class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                    title="Compartir en Twitter"
+                  >
+                    <UIcon name="i-heroicons-x-mark" class="w-5 h-5" />
+                  </button>
+                  <button 
+                    @click="copyProductLink"
+                    class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                    title="Copiar enlace"
+                  >
+                    <UIcon name="i-heroicons-link" class="w-5 h-5" />
+                  </button>
+                </div>
+                <div v-if="showCopyMessage" class="text-xs text-green-600 ml-2">
+                  ✓ {{ copiedMessage }}
+                </div>
               </div>
 
               <!-- Precio destacado -->
-              <div class="bg-elevated rounded-xl p-6 border">
+              <div class="bg-elevated rounded-lg p-4 border">
                 <div class="flex items-center justify-between">
                   <div>
-                    <p class="text-sm font-medium mb-1 text-muted">Precio unitario</p>
-                    <span class="text-4xl font-bold text-primary">{{ formatPrice(product.price) }}</span>
+                    <span class="text-3xl font-black text-primary">{{ formatPrice(product.price) }}</span>
                   </div>
-                  <UBadge color="primary" variant="solid" size="lg">
-                    <UIcon name="i-heroicons-check-circle" class="w-4 h-4 mr-1" />
+                  <UBadge color="primary" variant="soft" size="md">
                     A pedido
                   </UBadge>
                 </div>
@@ -412,10 +441,10 @@ const copyToClipboard = async (text, type) => {
                 </div>
               </div>
 
-              <!-- Especificaciones en tarjetas -->
-              <div class="space-y-4">
-                <h3 class="text-2xl font-bold flex items-center gap-2">
-                  <UIcon name="i-heroicons-cog-6-tooth" class="w-6 h-6" />
+              <!-- Especificaciones -->
+              <div class="space-y-3">
+                <h3 class="text-lg font-bold flex items-center gap-2">
+                  <UIcon name="i-heroicons-cog-6-tooth" class="w-5 h-5" />
                   Especificaciones
                 </h3>
                 
@@ -426,11 +455,11 @@ const copyToClipboard = async (text, type) => {
                 />
 
                 <!-- Opciones de personalización -->
-                <div v-if="product.customizable_options && product.customizable_options.length > 0" class="bg-gradient-to-r from-violet-50 to-purple-50 border border-violet-200 rounded-lg p-4 shadow-sm">
+                <div v-if="product.customizable_options && product.customizable_options.length > 0" class="bg-elevated border rounded-lg p-4">
                   <div class="space-y-3">
                     <div class="flex items-center gap-3">
-                      <UIcon name="i-heroicons-sparkles" class="w-5 h-5 text-violet-600" />
-                      <span class="font-medium text-violet-900">Opciones de Personalización</span>
+                      <UIcon name="i-heroicons-sparkles" class="w-5 h-5" />
+                      <span class="font-medium">Opciones de Personalización</span>
                     </div>
                     
                     <!-- Lista de opciones -->
@@ -440,25 +469,25 @@ const copyToClipboard = async (text, type) => {
                         :key="option"
                         class="flex items-center gap-2 text-sm"
                       >
-                        <UIcon name="i-heroicons-check-circle" class="w-4 h-4 text-violet-600 flex-shrink-0" />
-                        <span class="text-violet-800">{{ option }}</span>
+                        <UIcon name="i-heroicons-check-circle" class="w-4 h-4 flex-shrink-0" />
+                        <span>{{ option }}</span>
                       </div>
                     </div>
                     
                     <!-- Nota informativa -->
-                    <div class="bg-violet-100 rounded-md p-3 mt-3">
-                      <p class="text-xs text-violet-700">
+                    <div class="bg-muted/50 rounded-md p-3 mt-3">
+                      <p class="text-xs text-muted">
                         <UIcon name="i-heroicons-information-circle" class="w-4 h-4 inline mr-1" />
-                        Las personalizaciones pueden afectar el tiempo de producción y precio. Consúltanos para más detalles.
+                        Las personalizaciones pueden afectar el tiempo de producción y precio.
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <!-- Tiempo de producción -->
-                <div v-if="product.print_time" class="bg-elevated rounded-lg p-4 border shadow-sm">
+                <div v-if="product.print_time" class="bg-elevated rounded-lg p-4 border">
                   <div class="flex items-center gap-3">
-                    <UIcon name="i-heroicons-clock" class="w-5 h-5 text-primary" />
+                    <UIcon name="i-heroicons-clock" class="w-5 h-5" />
                     <div class="flex-1">
                       <span class="font-medium">Tiempo mínimo de Producción</span>
                       <p class="text-sm text-muted mt-1">{{ product.print_time }}</p>
@@ -467,141 +496,40 @@ const copyToClipboard = async (text, type) => {
                 </div>
               </div>
 
-              <!-- Información de entrega y envíos -->
-              <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
+              <!-- Información de entrega -->
+              <div class="bg-elevated border rounded-lg p-4">
                 <div class="flex items-start gap-3">
-                  <UIcon name="i-heroicons-truck" class="w-6 h-6 text-blue-600 mt-1" />
+                  <UIcon name="i-heroicons-truck" class="w-5 h-5 mt-0.5" />
                   <div class="flex-1">
-                    <h4 class="font-semibold text-blue-900 mb-3">Entrega y Envíos</h4>
+                    <h4 class="font-semibold mb-2 text-sm">Entrega y Envíos</h4>
                     
-                    <div class="space-y-3">
-                      <!-- Tiempo de entrega -->
-                      <div class="flex items-start gap-2">
-                        <UIcon name="i-heroicons-calendar-days" class="w-4 h-4 text-blue-600 mt-0.5" />
-                        <div class="text-sm">
-                          <span class="font-medium text-blue-900">Tiempo de entrega:</span>
-                          <p class="text-blue-700">
-                            {{ product.print_time ? `${product.print_time} de producción + 1-3 días de envío` : '3-7 días hábiles' }}
-                            (puede variar según cantidad de pedidos activos)
-                          </p>
-                        </div>
-                      </div>
-                      
-                      <!-- Métodos de entrega -->
-                      <div class="flex items-start gap-2">
-                        <UIcon name="i-heroicons-truck" class="w-4 h-4 text-blue-600 mt-0.5" />
-                        <div class="text-sm">
-                          <span class="font-medium text-blue-900">Opciones de entrega:</span>
-                          <ul class="text-blue-700 mt-1 space-y-1">
-                            <li>• Envíos a todo el país a través de Starken</li>
-                            <li>• Entrega presencial a coordinar en metros de Santiago</li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <!-- Envíos combinados -->
-                      <div class="flex items-start gap-2">
-                        <UIcon name="i-heroicons-gift" class="w-4 h-4 text-blue-600 mt-0.5" />
-                        <div class="text-sm">
-                          <span class="font-medium text-blue-900">Envíos combinados disponibles:</span>
-                          <p class="text-blue-700 mt-1">
-                            Hacemos envíos combinados con 
-                            <a 
-                              href="https://www.instagram.com/aso.tcg/" 
-                              target="_blank" 
-                              class="font-semibold underline hover:text-blue-800 transition-colors"
-                            >
-                              @aso.tcg
-                            </a>
-                            para optimizar costos de envío. ¡Perfecto para gamers que necesitan cartas y accesorios 3D!
-                          </p>
-                        </div>
-                      </div>
+                    <div class="space-y-2 text-xs text-muted">
+                      <p>• {{ product.print_time ? `${product.print_time} de producción + 1-3 días de envío` : '3-7 días hábiles' }}</p>
+                      <p>• Envíos a todo Chile vía Starken</p>
+                      <p>• Entrega presencial en Santiago (metros)</p>
+                      <p>• Envíos combinados con <a href="https://www.instagram.com/aso.tcg/" target="_blank" class="underline hover:opacity-80">
+                        @aso.tcg
+                      </a></p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Información adicional -->
-              <div class="bg-elevated rounded-xl p-6 border">
-                <div class="flex items-start gap-3">
-                  <UIcon name="i-heroicons-information-circle" class="w-6 h-6 text-primary mt-1" />
-                  <div>
-                    <h4 class="font-semibold mb-2">Información del Producto</h4>
-                    <p class="text-muted text-sm leading-relaxed mb-4">
-                      Este es un artículo de catálogo para fines de exhibición. Para consultas sobre precios y opciones de personalización, 
-                      por favor contacta directamente a nuestro equipo de ventas.
-                    </p>
-                    
-                    <!-- Botón de contacto para este producto -->
-                    <UButton 
-                      @click="contactForProduct"
-                      color="primary" 
-                      variant="solid" 
-                      size="md"
-                      class="w-full cursor-pointer mb-3"
-                    >
-                      <LucideIcon name="Instagram" :size="16" class="mr-2" />
-                      Consultar este producto
-                    </UButton>
-                  </div>
-                </div>
-              </div>
+              <!-- Botón de consulta -->
+              <UButton 
+                @click="contactForProduct"
+                color="primary" 
+                variant="solid" 
+                size="lg"
+                class="w-full cursor-pointer"
+              >
+                <LucideIcon name="Instagram" :size="20" class="mr-2" />
+                Consultar por Instagram
+              </UButton>
 
-              <!-- Compartir en Redes Sociales -->
-              <div class="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-6">
-                <div class="flex items-start gap-3">
-                  <UIcon name="i-heroicons-share" class="w-6 h-6 text-emerald-600 mt-1" />
-                  <div class="flex-1">
-                    <h4 class="font-semibold text-emerald-900 mb-3">Compartir este Producto</h4>
-                    <p class="text-sm text-emerald-700 mb-4">¡Comparte este increíble producto con tus amigos!</p>
-                    
-                    <!-- Botones de redes sociales -->
-                    <div class="flex flex-wrap gap-3">
-                      <!-- WhatsApp -->
-                      <UButton 
-                        @click="shareOnWhatsApp"
-                        color="primary" 
-                        variant="solid" 
-                        size="sm"
-                        class="cursor-pointer !bg-green-500 hover:!bg-green-600 !text-white !border-green-500"
-                      >
-                        <UIcon name="i-heroicons-chat-bubble-left-ellipsis" class="w-4 h-4 mr-2" />
-                        WhatsApp
-                      </UButton>
-                      
-                      <!-- Twitter/X -->
-                      <UButton 
-                        @click="shareOnTwitter"
-                        color="primary" 
-                        variant="solid" 
-                        size="sm"
-                        class="cursor-pointer !bg-slate-800 hover:!bg-slate-900 !text-white !border-slate-800"
-                      >
-                        <UIcon name="i-heroicons-at-symbol" class="w-4 h-4 mr-2" />
-                        Twitter
-                      </UButton>
-                      
-                      <!-- Copiar enlace -->
-                      <UButton 
-                        @click="copyProductLink"
-                        color="primary" 
-                        variant="outline" 
-                        size="sm"
-                        class="cursor-pointer"
-                      >
-                        <UIcon name="i-heroicons-link" class="w-4 h-4 mr-2" />
-                        Copiar enlace
-                      </UButton>
-                    </div>
-                    
-                    <!-- Mensaje de confirmación -->
-                    <div v-if="showCopyMessage" class="mt-3 p-2 bg-emerald-100 text-emerald-700 text-xs rounded-md">
-                      <UIcon name="i-heroicons-check-circle" class="w-4 h-4 inline mr-1" />
-                      ¡Enlace copiado al portapapeles!
-                    </div>
-                  </div>
-                </div>
+              <!-- Información compacta -->
+              <div class="text-xs text-center text-muted">
+                <p>Consulta disponibilidad, precios personalizados y tiempos de entrega</p>
               </div>
             </div>
           </div>
@@ -675,55 +603,53 @@ const copyToClipboard = async (text, type) => {
           </h2>
           <p class="text-muted mb-6">Otros productos de la categoría <span class="font-medium text-primary">{{ product.category }}</span> que podrían interesarte</p>
           
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <UCard 
-              v-for="relatedProduct in relatedProducts" 
+          <!-- Grid estilo Instagram -->
+          <div class="grid grid-cols-3 gap-1 md:gap-2 max-w-4xl mx-auto mb-8">
+            <NuxtLink
+              v-for="relatedProduct in relatedProducts"
               :key="relatedProduct.slug"
-              class="group cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-              @click="navigateTo(`/products/${relatedProduct.slug}`)"
+              :to="`/products/${relatedProduct.slug}`"
+              class="aspect-square cursor-pointer overflow-hidden bg-gray-100 hover:opacity-80 transition-opacity relative group"
             >
-              <!-- Imagen/Video del producto -->
-              <div class="aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-purple-100 to-pink-100 mb-4">
-                <img
-                  v-if="relatedProduct.images?.[0]"
-                  :src="getMediaUrl(relatedProduct.images[0])"
-                  :alt="relatedProduct.name"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <video
-                  v-else-if="relatedProduct.videos?.[0]"
-                  :src="getMediaUrl(relatedProduct.videos[0])"
-                  class="w-full h-full object-cover"
-                  muted
-                  loop
-                  autoplay
-                  playsinline
-                />
-                <div v-else class="w-full h-full flex items-center justify-center">
-                  <UIcon name="i-heroicons-photo" class="w-12 h-12 text-purple-400" />
-                </div>
+              <!-- Imagen principal -->
+              <img
+                v-if="relatedProduct.images?.[0]"
+                :src="getMediaUrl(relatedProduct.images[0])"
+                :alt="relatedProduct.name"
+                class="w-full h-full object-cover"
+              />
+              <video
+                v-else-if="relatedProduct.videos?.[0]"
+                :src="getMediaUrl(relatedProduct.videos[0])"
+                class="w-full h-full object-cover"
+                muted
+                loop
+                playsinline
+              />
+              <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-violet-200 to-purple-200">
+                <UIcon name="i-heroicons-photo" class="w-8 h-8 md:w-12 md:h-12 text-primary" />
               </div>
-              
-              <!-- Información del producto -->
-              <div class="p-4">
-                <h3 class="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+
+              <!-- Overlay con información (solo visible en hover desktop) -->
+              <div class="hidden md:flex absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex-col items-center justify-center p-4 text-white text-center">
+                <h3 class="font-bold text-lg mb-2 line-clamp-2">
                   {{ relatedProduct.name }}
                 </h3>
-                <p class="text-sm text-muted mb-3 line-clamp-2">
-                  {{ relatedProduct.description }}
+                <p class="text-2xl font-black">
+                  {{ formatPrice(relatedProduct.price) }}
                 </p>
-                
-                <!-- Precio -->
-                <div class="flex items-center justify-between">
-                  <span class="text-xl font-bold text-primary">
-                    {{ formatPrice(relatedProduct.price) }}
-                  </span>
-                  <UBadge color="primary" variant="soft" size="sm">
-                    {{ relatedProduct.category }}
-                  </UBadge>
-                </div>
               </div>
-            </UCard>
+
+              <!-- Badge de precio (solo mobile) -->
+              <div class="md:hidden absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                <p class="text-white text-xs font-bold truncate">
+                  {{ relatedProduct.name }}
+                </p>
+                <p class="text-white text-sm font-black">
+                  {{ formatPrice(relatedProduct.price) }}
+                </p>
+              </div>
+            </NuxtLink>
           </div>
           
           <!-- Botón para ver más productos -->

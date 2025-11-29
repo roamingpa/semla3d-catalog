@@ -65,7 +65,7 @@
             <!-- Información del producto -->
             <div class="flex-1 min-w-0">
               <h4 class="font-medium text-sm md:text-base truncate">{{ result.name }}</h4>
-              <p class="text-xs md:text-sm text-muted truncate">{{ result.description }}</p>
+              <p class="text-xs md:text-sm text-muted truncate">{{ result.description?.replace(/\\n/g, ' ') }}</p>
               <div class="flex items-center gap-2 mt-1">
                 <UBadge color="primary" variant="soft" size="md">
                   {{ formatPrice(result.price) }}

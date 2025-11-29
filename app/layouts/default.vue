@@ -28,6 +28,14 @@
             >
               Catálogo
             </UButton>
+            <UButton
+              to="/stock"
+              variant="ghost"
+              size="sm"
+              icon="i-heroicons-check-circle"
+            >
+              Stock
+            </UButton>
           </div>
         </div>
 
@@ -37,7 +45,7 @@
           <div class="flex items-center justify-between">
             <div class="flex-shrink-0">
               <NuxtLink to="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                <img :src="getMediaUrl('/logo/1.jpg')" alt="Semla3D Logo" class="w-7 h-7 object-contain" />
+                <img :src="getMediaUrl('catalogo/logo/1.jpg')" alt="Semla3D Logo" class="w-7 h-7 object-contain" />
                 <h1 class="text-lg font-bold text-highlighted">Semla3D</h1>
               </NuxtLink>
             </div>
@@ -50,6 +58,13 @@
                 icon="i-heroicons-home"
               >
                 <span class="sr-only">Catálogo</span>
+              </UButton>
+              <UButton
+                to="/stock"
+                variant="ghost"
+                size="sm"
+              >
+                🟢
               </UButton>
             </div>
           </div>
