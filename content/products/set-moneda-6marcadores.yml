@@ -1,0 +1,15 @@
+name: Set moneda + 6 marcadores
+slug: set-monedas-6marcadores
+description: Moneda tipo One Piece junto con 6 marcadores de habilidad.
+price: 5000
+category: one piece
+images:
+  - "/catalogo/marcador-onepiece/moneda-6marcadores/1.jpg"
+
+size:
+  length: ""
+  width: ""
+  height: ""
+print_time: "2-3 días"
+customizable_options: []
+combina_bien_con: []

@@ -178,6 +178,7 @@ definePageMeta({
             class="w-full h-full object-cover"
             muted
             loop
+            autoplay
             playsinline
           />
           <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-violet-200 to-purple-200">

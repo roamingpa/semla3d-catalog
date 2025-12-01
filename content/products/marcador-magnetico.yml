@@ -1,0 +1,19 @@
+name: Marcadores magnéticos
+slug: marcadores-magneticos
+description: Marcadores magnéticos impresos en 3D, perfectos para marcar buffs o debuffs de daño.
+price: 3000
+bulk_pricing:
+  - min_quantity: 2
+    unit_price: 2500
+category: one piece
+images:
+  - "/catalogo/marcador-onepiece/magnetico/1.jpg"
+  - "/catalogo/marcador-onepiece/magnetico/2.jpg"
+
+size:
+  length: ""
+  width: ""
+  height: ""
+print_time: "2-3 días"
+customizable_options: []
+combina_bien_con: []

@@ -1,0 +1,15 @@
+name: Marcadores tipo moneda
+slug: moneda
+description: Marcadores tipo moneda para habilidades.
+price: 1000
+category: one piece
+images:
+  - "/catalogo/marcador-onepiece/moneda/1.jpg"
+
+size:
+  length: ""
+  width: ""
+  height: ""
+print_time: "2-3 días"
+customizable_options: []
+combina_bien_con: []
